@@ -1,8 +1,9 @@
 <?php
 
-namespace SivadasRajan\LitePHPServer;
+namespace SivadasRajan\LitePHPServer\Http;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
+use SivadasRajan\LitePHPServer\Http\ParameterBag;
+
 
 class Request{
 
@@ -66,7 +67,6 @@ class Request{
     public static function capture()
     {
         $request = new static($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
-        print_r($request);
         if (str_starts_with($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded')
             && \in_array(strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])
         ) {

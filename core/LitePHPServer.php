@@ -3,8 +3,8 @@ namespace SivadasRajan\LitePHPServer;
 
 use Ahc\Jwt\JWT;
 use Ahc\Jwt\JWTException;
-use SivadasRajan\LitePHPServer\Request;
-use SivadasRajan\LitePHPServer\Response;
+use SivadasRajan\LitePHPServer\Http\Request;
+use SivadasRajan\LitePHPServer\Http\Response;
 
 ini_set('display_errors', 1);
 

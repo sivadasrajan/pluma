@@ -1,5 +1,5 @@
 <?php
-namespace SivadasRajan\LitePHPServer;
+namespace SivadasRajan\LitePHPServer\Http;
 
 class Response{
 
