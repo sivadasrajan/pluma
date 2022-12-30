@@ -8,12 +8,7 @@ use RecursiveArrayIterator;
 
 class Query
 {  
-    private const DATABASE_NAME = 'daybook';
-    private const DATABASE_USERNAME = 'root';
-    private const DATABASE_PASSWORD = 'root';
-    private const DATABASE_HOSTNAME = 'localhost';
-    private const DATABASE_PORT = '3306';
-
+   
     private $conn;
     private $query;
     private $queryString;

@@ -1,5 +1,5 @@
 <?php
-namespace SivadasRajan\LitePHPServer;
+namespace SivadasRajan\Core\LitePHPServer;
 
 use Ahc\Jwt\JWT;
 use Ahc\Jwt\JWTException;

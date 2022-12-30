@@ -7,13 +7,13 @@ use SivadasRajan\LitePHPServer\Http\ParameterBag;
 
 class Request{
 
-    protected $request;
-    protected $query;
-    protected $attributes;
-    protected $cookies;
-    protected $files;
-    protected $server;
-    protected $headers;
+    public $request;
+    public $query;
+    public $attributes;
+    public $cookies;
+    public $files;
+    public $server;
+    public $headers;
 
     public function __construct(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
     {

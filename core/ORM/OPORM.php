@@ -4,26 +4,54 @@ namespace SivadasRajan\LitePHPServer;
 
 use PDO;
 use PDOException;
-use RecursiveArrayIterator;
-use SivadasRajan\LitePHPServer\ORM\Query;
+
 
 class OPORM
 {
+
+    private const DATABASE_NAME = 'daybook';
+    private const DATABASE_USERNAME = 'root';
+    private const DATABASE_PASSWORD = 'root';
+    private const DATABASE_HOSTNAME = 'localhost';
+    private const DATABASE_PORT = '3306';
+
    
-    public static function all()
+    private $conn;
+
+    public function connect()
     {
-        $ledgername = (static::class);
-        $qry = new Query($ledgername);
-        var_dump(static::objectifyArray($qry->all()));
-       
+        
+        try {
+            $this->conn = new PDO("mysql:host=".OPORM::DATABASE_HOSTNAME.";dbname=".OPORM::DATABASE_NAME, OPORM::DATABASE_USERNAME, OPORM::DATABASE_PASSWORD);
+            // set the PDO error mode to exception
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            echo "Connected successfully";
+
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            die();
+        }
     }
 
-    public function where($field,$value,$operation = '=')
+    
+    public function selectQuery(string $query, array $params = [])
     {
-        $ledgername = (static::class);
-        $qry = new Query($ledgername);
-        var_dump(static::objectifyArray($qry->where($field,$value,$operation)));
-       
+     
+        // $sql = "SELECT * FROM $this->ledgername";
+        $conn = static::connect();
+        try {
+            
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute($params);
+
+            // set the resulting array to associativequeryString
+            $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            return $this->objectifyArray($stmt->fetchAll());
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            
+        }
     }
 
 
