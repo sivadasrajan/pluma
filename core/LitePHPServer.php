@@ -1,14 +1,14 @@
 <?php
-namespace SivadasRajan\Core\LitePHPServer;
+namespace SivadasRajan\Core\Pluma;
 
 use Ahc\Jwt\JWT;
 use Ahc\Jwt\JWTException;
-use SivadasRajan\LitePHPServer\Http\Request;
-use SivadasRajan\LitePHPServer\Http\Response;
+use SivadasRajan\Pluma\Http\Request;
+use SivadasRajan\Pluma\Http\Response;
 
 ini_set('display_errors', 1);
 
-class LitePHPServer{
+class Pluma{
 
     protected $jwt;
 

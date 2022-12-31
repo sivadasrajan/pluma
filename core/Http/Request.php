@@ -1,8 +1,8 @@
 <?php
 
-namespace SivadasRajan\LitePHPServer\Http;
+namespace SivadasRajan\Pluma\Http;
 
-use SivadasRajan\LitePHPServer\Http\ParameterBag;
+use SivadasRajan\Pluma\Http\ParameterBag;
 
 
 class Request{

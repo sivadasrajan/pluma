@@ -1,6 +1,6 @@
 <?php
 
-namespace SivadasRajan\LitePHPServer;
+namespace SivadasRajan\Pluma;
 
 use PDO;
 use PDOException;

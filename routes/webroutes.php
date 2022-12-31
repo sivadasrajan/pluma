@@ -1,7 +1,7 @@
 <?php
 
-use SivadasRajan\LitePHPServer\Http\Response;
-use SivadasRajan\LitePHPServer\Route\Route;
+use SivadasRajan\Pluma\Http\Response;
+use SivadasRajan\Pluma\Route\Route;
 
 return [
 

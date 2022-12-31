@@ -1,6 +1,6 @@
 <?php
 
-use SivadasRajan\LitePHPServer\Application;
+use SivadasRajan\Pluma\Application;
 
 require "../core/Application.php";
 require '../core/Http/Request.php';

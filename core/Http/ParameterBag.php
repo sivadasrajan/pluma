@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace SivadasRajan\LitePHPServer\Http;
+namespace SivadasRajan\Pluma\Http;
 
 use Exception;
 

@@ -1,7 +1,7 @@
 <?php
-namespace SivadasRajan\LitePHPServer\Route;
+namespace SivadasRajan\Pluma\Route;
 
-use SivadasRajan\LitePHPServer\Http\Request;
+use SivadasRajan\Pluma\Http\Request;
 
 class Route{
 

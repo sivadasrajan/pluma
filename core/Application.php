@@ -1,10 +1,10 @@
 <?php
-namespace SivadasRajan\LitePHPServer;
+namespace SivadasRajan\Pluma;
 
 use Exception;
-use SivadasRajan\LitePHPServer\Http\Request;
-use SivadasRajan\LitePHPServer\Http\Response;
-use SivadasRajan\LitePHPServer\Route\Route;
+use SivadasRajan\Pluma\Http\Request;
+use SivadasRajan\Pluma\Http\Response;
+use SivadasRajan\Pluma\Route\Route;
 
 class Application
 {

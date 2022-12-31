@@ -1,6 +1,6 @@
 <?php
 
-namespace SivadasRajan\LitePHPServer\ORM;
+namespace SivadasRajan\Pluma\ORM;
 
 use PDO;
 use PDOException;
