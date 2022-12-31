@@ -8,10 +8,11 @@ use SivadasRajan\Pluma\Route\Route;
 
 class Application
 {
-    private $routes = [];
+    protected $routes = [];
+    protected $middlewares = [];
     public function __construct(string $root)
     {
-        $routes = require_once $root.'/../routes/webroutes.php';
+        $routes = require_once $root.'/../routes/web.php';
         foreach ($routes as $route) {
             if($route instanceof Route){
                 $this->routes[$route->getRoute()]  = $route;
@@ -31,14 +32,21 @@ class Application
     {
         $path = ($request->server->get('PATH_INFO'));
         // echo $path;
-        var_dump($request->server);
         if(key_exists($path,$this->routes)){
           $rt =   $this->routes[$path];
           if($rt->getVerb() == $request->server->get('REQUEST_METHOD')){
-
+              for ($i=0; $i < count($this->middlewares); $i++) { 
+                $middleware = new $this->middlewares[$i]();
+                if($i < count($this->middlewares)){
+                    var_dump($middleware);
+                    $middleware->handle($request,$middleware->handle(null,null));
+                    
+                }
+              }
+              }
               return $rt->execute($request);
           }
-        }
+        
 
         return new Response('Not found',404);
     }

@@ -6,7 +6,6 @@ use Ahc\Jwt\JWTException;
 use SivadasRajan\Pluma\Http\Request;
 use SivadasRajan\Pluma\Http\Response;
 
-ini_set('display_errors', 1);
 
 class Pluma{
 
