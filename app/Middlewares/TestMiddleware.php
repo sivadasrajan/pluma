@@ -9,10 +9,10 @@ use SivadasRajan\Pluma\Route\Middleware;
 
 class TestMiddleware implements Middleware
 {
-    public function handle(Request $request,Closure $next)
+    public function handle(Request $request)
     {
-        if($request->request->get('auth') == 'yes'){
-         return $next($request);
+        if($request->query->get('auth') != 'yes'){
+         return true;
         }
         else return new Response("Unautorized",403);
     }
