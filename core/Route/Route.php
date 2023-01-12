@@ -62,28 +62,41 @@ class Route{
     public function prefix(string $prefix)
     {
         foreach (array_reverse(explode('//',$prefix)) as $prefix) {
-            $this->route = $prefix.'//'.$this->route;
+            $this->route = '/'.$prefix.$this->route;
         }
+        
     }
 
     public static function group(array $routes,array $attrs) {
         /** @var Route $route */
         foreach ($routes as $route) {
-          if(array_key_exists('middlewares',$attrs)){
-             if(is_array($attrs['middlewares'])){
-              $route->middleware($attrs['middlewares']);
-             }else throw new Exception("Invalid middlewares");
-          }
-  
-          if(array_key_exists('prefix',$attrs)){
-            $route->prefix($attrs['prefix']);
-          }
+
+        if($route instanceof Route){
+            if(array_key_exists('middlewares',$attrs)){
+                if(is_array($attrs['middlewares'])){
+                 $route->middleware($attrs['middlewares']);
+                }else throw new Exception("Invalid middlewares");
+             }
+     
+             if(array_key_exists('prefix',$attrs)){
+               $route->prefix($attrs['prefix']);
+             }
+        }elseif (is_array($route)) {
+            self::group($route,$attrs);
         }
+          
+        }
+
+        return $routes;
       }
   
     public function getRoute()
     {
         return $this->route;
+    }
+    public function getMiddlewares()
+    {
+        return $this->middlewares;
     }
     public function getVerb()
     {

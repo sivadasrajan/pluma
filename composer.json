@@ -1,0 +1,19 @@
+{
+    "name": "sivadasrajan/pluma",
+    "description": "Ultra lightweight php framework",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "SivadasRajan\\Pluma\\": "core/",
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "SIVADAS P R",
+            "email": "sivadasrajan@gmail.com"
+        }
+    ],
+    "require": {}
+}

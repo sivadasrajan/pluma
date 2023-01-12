@@ -1,5 +1,5 @@
 <?php
-namespace SivadasRajan;
+namespace App\Middlewares;
 
 use Closure;
 use SivadasRajan\Pluma\Application;

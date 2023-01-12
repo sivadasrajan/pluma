@@ -1,10 +1,13 @@
 <?php
-namespace SivadasRajan;
+namespace App\Controllers;
 
-use Ahc\Jwt\JWT;
+
+
+use SivadasRajan\Pluma\JWT;
 use SivadasRajan\Pluma\Http\Request;
 use SivadasRajan\Pluma\Http\Response;
 use SivadasRajan\Pluma\Route\Controller;
+
 
 class LoginController extends Controller{
 

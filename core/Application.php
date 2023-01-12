@@ -11,16 +11,25 @@ use SivadasRajan\Pluma\Middlewares\JWTAuthMiddleware;
 class Application
 {
     protected $routes = [];
-    protected $core_middlewares = [ 'auth' => JWTAuthMiddleware::class];
+    protected $core_middlewares = [ ];
     protected $middlewares = [];
     public function __construct(string $root)
     {
         $routes = require_once $root . '/../routes/web.php';
+        $this->processRouteOrRouteGroup($routes);
+
+    }
+
+    function processRouteOrRouteGroup($routes)
+    {
         foreach ($routes as $route) {
             if ($route instanceof Route) {
                 $this->routes[$route->getRoute()]  = $route;
-            } else {
-                throw new Exception("The passed object is not a Route");
+            } else if(is_array($route)) {
+                $this->processRouteOrRouteGroup($route);
+            }
+            else {
+                throw new Exception("The passed route is invalid");
             }
         }
     }
@@ -37,10 +46,11 @@ class Application
         if (key_exists($path, $this->routes)) {
             $rt =   $this->routes[$path];
             if ($rt->getVerb() == $request->server->get('REQUEST_METHOD')) {
-                $middlewares = array_merge($this->core_middlewares,$this->middlewares);
-                for ($i = 0; $i < count($middlewares); $i++) {
-                    $middleware = new $middlewares[$i]();
-                    $out = $middleware->handle($request);
+                $middlewares = array_merge($this->core_middlewares,$rt->getMiddlewares());
+                foreach($middlewares as $middleware) {
+                    
+                    $middlewareObj = new $middleware();
+                    $out = $middlewareObj->handle($request);
                     if ($out !== true) {
                         return $out;
                     }

@@ -11,7 +11,8 @@ declare(strict_types=1);
  * Licensed under MIT license.
  */
 
-namespace Ahc\Jwt;
+ namespace SivadasRajan\Pluma;
+ // namespace Ahc\Jwt;
 
 /**
  * JSON Web Token (JWT) implementation in PHP5.5+.

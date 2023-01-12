@@ -1,8 +1,10 @@
 <?php
 namespace SivadasRajan\Pluma\Middlewares;
 
-use Ahc\Jwt\JWT;
-use Ahc\Jwt\JWTException;
+
+
+use SivadasRajan\Pluma\JWT;
+use SivadasRajan\Pluma\JWTException;
 use SivadasRajan\Pluma\Http\Request;
 use SivadasRajan\Pluma\Http\Response;
 use SivadasRajan\Pluma\Route\Middleware;
@@ -23,12 +25,14 @@ class JWTAuthMiddleware implements Middleware{
     public function authenticate(Request $request)
     {
             $token = $request->headers->get('AUTHORIZATION');
+            if($token)
             try {
                 $payload = $this->jwt->decode($token);
                 return true;
             } catch (JWTException $th) {
                 return new Response('Auth error',403);
             }   
+        return new Response('Missing token',403);
     }
 
 }
