@@ -1,6 +1,7 @@
 <?php
 namespace SivadasRajan\Pluma\Route;
 
+use Exception;
 use SivadasRajan\Pluma\Http\Request;
 
 class Route{
@@ -9,6 +10,7 @@ class Route{
     private string $route;
     private string $name;
     private string $verb;
+    private array $middlewares = [];
     private $object;
 
     public function __construct(string $route,string $verb,$callback) {
@@ -50,6 +52,35 @@ class Route{
        return call_user_func($this->callback,$request);
     }
 
+    public function middleware(array $middlewares)
+    {
+        $this->middlewares = $middlewares;
+
+        return $this;
+    }
+
+    public function prefix(string $prefix)
+    {
+        foreach (array_reverse(explode('//',$prefix)) as $prefix) {
+            $this->route = $prefix.'//'.$this->route;
+        }
+    }
+
+    public static function group(array $routes,array $attrs) {
+        /** @var Route $route */
+        foreach ($routes as $route) {
+          if(array_key_exists('middlewares',$attrs)){
+             if(is_array($attrs['middlewares'])){
+              $route->middleware($attrs['middlewares']);
+             }else throw new Exception("Invalid middlewares");
+          }
+  
+          if(array_key_exists('prefix',$attrs)){
+            $route->prefix($attrs['prefix']);
+          }
+        }
+      }
+  
     public function getRoute()
     {
         return $this->route;

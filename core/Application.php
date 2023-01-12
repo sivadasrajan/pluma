@@ -11,7 +11,7 @@ use SivadasRajan\Pluma\Middlewares\JWTAuthMiddleware;
 class Application
 {
     protected $routes = [];
-    protected $core_middlewares = [JWTAuthMiddleware::class];
+    protected $core_middlewares = [ 'auth' => JWTAuthMiddleware::class];
     protected $middlewares = [];
     public function __construct(string $root)
     {
@@ -29,7 +29,7 @@ class Application
     {
         return $this->route($request);
     }
-
+ 
     public function route(Request $request)
     {
         $path = ($request->server->get('PATH_INFO'));
