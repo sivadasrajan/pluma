@@ -1,30 +1,31 @@
 <?php
+require 'vendor/autoload.php';
+
 function relativePath($to, $separator = DIRECTORY_SEPARATOR)
 {
-    
-    $from = __DIR__.DIRECTORY_SEPARATOR.'init';
+
+    $from = __DIR__ . DIRECTORY_SEPARATOR . 'init';
     $from   = str_replace(array('/', '\\'), $separator, $from);
     $to     = str_replace(array('/', '\\'), $separator, $to);
 
     $arFrom = explode($separator, rtrim($from, $separator));
     $arTo = explode($separator, rtrim($to, $separator));
-    while(count($arFrom) && count($arTo) && ($arFrom[0] == $arTo[0]))
-    {
+    while (count($arFrom) && count($arTo) && ($arFrom[0] == $arTo[0])) {
         array_shift($arFrom);
         array_shift($arTo);
     }
 
-    return str_pad("", count($arFrom) * 3, '..'.$separator).implode($separator, $arTo);
+    return str_pad("", count($arFrom) * 3, '..' . $separator) . implode($separator, $arTo);
 }
-function getDirContents($dir, &$results = array()) {
+function getDirContents($dir, &$results = array())
+{
     $files = scandir($dir);
 
     foreach ($files as $key => $value) {
         $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
         if (!is_dir($path)) {
-            if(str_ends_with(strtolower($path),'.php')){
+            if (str_ends_with(strtolower($path), '.php')) {
                 $results[] = relativePath($path);
-                
             }
         } else if ($value != "." && $value != "..") {
             getDirContents($path, $results);
@@ -36,26 +37,50 @@ function getDirContents($dir, &$results = array()) {
 }
 function println(string $str)
 {
-    printf($str."\n");
+    printf($str . "\n");
+}
+
+function routelist()
+{
+    $routes = require_once  'routes/web.php';
+    $rts = (processRouteOrRouteGroup($routes));
+    foreach ($rts as $key => $value) {
+        print($key.' '.$value->getVerb());
+        # code...
+    }
+}
+
+function processRouteOrRouteGroup($routes):array
+{
+    $out = [];
+    foreach ($routes as $route) {
+        if (is_array($route)) {
+            $out = array_merge($out, processRouteOrRouteGroup($route));
+        } else {
+            $out[$route->getRoute()]  = $route;
+        }  
+    }
+
+    return $out;
 }
 
 function generateAutoloadFiles()
 {
     $coreFiles =    getDirContents('./core');
-    $core_autoload = fopen("./init/core_autoload.php", "w") ;
+    $core_autoload = fopen("./init/core_autoload.php", "w");
     fwrite($core_autoload, "<?php\n");
     foreach ($coreFiles as $file) {
-        println("require '".$file."'");
-        fwrite($core_autoload, "require '".$file."';\n");
+        println("require '" . $file . "'");
+        fwrite($core_autoload, "require '" . $file . "';\n");
     }
     fclose($core_autoload);
 
     $appFiles =    getDirContents('./app');
-    $app_autoload = fopen("./init/app_autoload.php", "w") ;
+    $app_autoload = fopen("./init/app_autoload.php", "w");
     fwrite($app_autoload, "<?php\n");
     foreach ($appFiles as $file) {
-        println("require '".$file."'");
-        fwrite($app_autoload, "require '".$file."';\n");
+        println("require '" . $file . "'");
+        fwrite($app_autoload, "require '" . $file . "';\n");
     }
     fclose($app_autoload);
 }
@@ -67,7 +92,7 @@ function main($argv)
     println("  start             Start the server");
     println("  gen:autoloader    Generate autoloader files");
 
-    switch ($argv[1] ?? ''){
+    switch ($argv[1] ?? '') {
         case '':
             break;
         case 'start':
@@ -76,11 +101,13 @@ function main($argv)
         case 'gen:autoloader':
             generateAutoloadFiles();
             break;
-        
+         case 'route:list':
+            routelist();
+            break;
+
         default:
             println("Invalid Command");
             break;
     }
 }
 main($argv);
-

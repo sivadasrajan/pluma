@@ -62,6 +62,6 @@ class Application
         }
 
 
-        return new Response('Not found', 404);
+        return new Response(file_get_contents("index.html"), 200);
     }
 }
