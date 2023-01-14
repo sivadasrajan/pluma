@@ -44,10 +44,13 @@ function routelist()
 {
     $routes = require_once  'routes/web.php';
     $rts = (processRouteOrRouteGroup($routes));
+    printf("Route\t\tMethod\n");
+    printf("-----------------------------------\n");
     foreach ($rts as $key => $value) {
-        print($key.' '.$value->getVerb());
+        printf("%s\t |%s \t| \n",$key,$value->getVerb());
         # code...
     }
+    printf("-----------------------------------\n");
 }
 
 function processRouteOrRouteGroup($routes):array
