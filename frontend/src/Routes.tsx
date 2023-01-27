@@ -1,16 +1,18 @@
-import { BrowserRouter, Sw, Route } from "react-router-dom";
+import { BrowserRouter,  Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from "react-router-dom";
+import LoginPage from "./Pages/LoginPage";
 function Routes() {
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<LoginPage />}>
+                <Route path="/" element={< LoginPage />}/>
+      </Route>
+    )
+  );
   return (
 
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={< LoginPage />}>
-          {/* <Route index element={<Home />} />
-          <Route path="blogs" element={<Blogs />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NoPage />} /> */}
-        </Route>
-      </Routes>
+      <RouterProvider router={router} />
     </BrowserRouter>
   )
 }
