@@ -18,14 +18,15 @@ class LoginController extends Controller{
     }
     public function login(Request $request)
     {
-        if($request->query->get('username') == 'yes' && $request->query->get('password')  == 'bla'){
+
+        if($request->attributes->get('username') == 'yes' && $request->attributes->get('password')  == 'bla'){
             $token = $this->jwt->encode([
                 'uid'    => 1,
                 'aud'    => 'http://site.com',
                 'scopes' => ['user'],
                 'iss'    => 'http://api.mysite.com',
             ]);
-            return new Response($token,200);
+            return new Response(['access_token'=>$token],200);
         }
         return new Response('Invalid credentials',401);
     }

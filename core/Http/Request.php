@@ -66,7 +66,7 @@ class Request{
 
     public static function capture()
     {
-        $request = new static($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
+        $request = new static($_GET, $_POST,  json_decode(file_get_contents('php://input'), true) ?? [], $_COOKIE, $_FILES, $_SERVER);
         if (str_starts_with($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded')
             && \in_array(strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])
         ) {

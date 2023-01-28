@@ -26,7 +26,7 @@ return [
                 return new Response('You are now in page', 200);
             }),
             Route::post('/login', [LoginController::class, 'login']),
-        ], ['prefix' => 'v1',]),
+        ], ['prefix' => 'v1']),
 
         //Non Authenticated routes
 

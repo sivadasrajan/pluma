@@ -99,7 +99,7 @@ function main($argv)
         case '':
             break;
         case 'start':
-            exec('php -s -S 0.0.0.0:8000 -t"public"');
+            exec('php -s -S 0.0.0.0:8000 -dxdebug.mode=debug -dxdebug.client_host=127.0.0.1 -dxdebug.client_port=9003 -dxdebug.start_with_request=yes -t"public"');
             break;
         case 'gen:autoloader':
             generateAutoloadFiles();

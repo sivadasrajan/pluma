@@ -72,9 +72,9 @@ class Response{
     protected $statusCode;
     protected $statusText;
     protected $headers;
-
+    protected $json = true;
     protected $version = '1.1';
-    public function __construct($content = '',int $status = 200, array $headers = [])
+    public function __construct($content,int $status = 200, array $headers = [])
     {
 
         $this->content = $content ?? '';
@@ -90,12 +90,31 @@ class Response{
             header($value);
         }
     }
+
+    public function setJson(bool $var)
+    {
+        $this->json = $var;
+
+        return $this;
+    }
+
     public function send()
+    {
+        if($this->json)
+            $this->sendJSON();
+        else
+            $this->sendNormal();
+    
+    }
+    public function sendNormal()
     {
         $this->send_headers();
         echo $this->content;
     }
-
+    public function addHeader($name,$value)
+    {
+        array_push($this->headers,$name.':'.$value);
+    }
     public function sendJSON()
     {
         $this->send_headers();

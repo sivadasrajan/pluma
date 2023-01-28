@@ -1,6 +1,7 @@
 import React, { useState } from 'react'; // importing FunctionComponent
 import GuestLayout from '../Templates/GuestLayout';
 import { LoginType, useAuth } from "../hooks/Auth";
+import { redirect } from 'react-router-dom';
 
 
 const LoginPage: React.FC = () => {
@@ -14,7 +15,9 @@ const LoginPage: React.FC = () => {
 
     const handleLogin = () => {
         Login({ email, password }).then(()=>{
-          alert('success')
+          console.log("Redirecting");
+          
+          return redirect('https://www.google.com');
         }).catch(()=>{
           setMessage('NEtowrk error');
         });
