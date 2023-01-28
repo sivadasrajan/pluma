@@ -62,6 +62,6 @@ class Application
         }
 
 
-        return new Response(file_get_contents("index.html"), 200);
+        return new Response(file_get_contents("index.html"), 200,['Access-Control-Allow-Origin http://192.168.1.60:5173']);
     }
 }

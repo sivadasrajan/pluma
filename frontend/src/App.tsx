@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
 import LoginPage from './Pages/LoginPage';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './Components/ProtectedRoute';
 import { LandingPage } from './Pages/LandingPage';
 import { NotFoundPage } from './Pages/NotFoundPage';
@@ -14,15 +13,12 @@ function App() {
 
   return (
     <div>
-
-      <BrowserRouter>
         <Routes>
             <Route path='/' element={<LandingPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/home' element={<ProtectedRoute component={HomePage} />} />
             <Route path='*' element={<NotFoundPage />} />
         </Routes>
-      </BrowserRouter>
     </div>
   )
 }
