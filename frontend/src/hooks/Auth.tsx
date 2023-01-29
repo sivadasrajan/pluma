@@ -39,8 +39,8 @@ export const AuthProvider = ({ children }: any) => {
   const Login = async ({ email, password }: LoginType) => {
     
       const res = await api.post<{ access_token: string }>("/api/v1/login", {
-        'username': 'yes',
-        'password': 'bla',
+        'username': email,
+        'password': password,
       });
 
       // const userData = await api.get<{}>("/auth/user");
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }: any) => {
       
       localStorage.setItem("@Auth:access_token", res.data.access_token);
       localStorage.setItem("@Auth:user", JSON.stringify('user'));
-    
+      return res.data;
   };
 
   const Logout = () => {

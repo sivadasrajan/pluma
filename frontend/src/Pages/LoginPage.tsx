@@ -7,19 +7,20 @@ import { redirect,useNavigate } from 'react-router-dom';
 const LoginPage: React.FC = () => {
 
 
-  const [email, setCnpj] = useState('');
+  const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const { Login } = useAuth();
     let navigate = useNavigate();
 
     const handleLogin = () => {
-        Login({ email, password }).then(()=>{
-          console.log("Redirecting");
+        Login({ email, password }).then((response)=>{
+          if(!response.error)
+          console.log(response);
           
           navigate('/home');
         }).catch(()=>{
-          setMessage('NEtowrk error');
+          setMessage('Something went wrong');
         });
     }
 
@@ -32,7 +33,7 @@ const LoginPage: React.FC = () => {
             <label className="label">
               <span className="label-text">Username</span>
             </label>
-            <input type="text" placeholder="Enter Username" className="input input-bordered w-full max-w-xs" onChange={e => setCnpj(e.target.value)} />
+            <input type="text" placeholder="Enter Username" className="input input-bordered w-full max-w-xs" onChange={e => setEmail(e.target.value)} />
           </div>
         </div>
         <div>
