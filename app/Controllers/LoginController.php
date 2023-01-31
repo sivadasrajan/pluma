@@ -19,7 +19,7 @@ class LoginController extends Controller{
     public function login(Request $request)
     {
 
-        if($request->attributes->get('username') == 'yes' && $request->attributes->get('password')  == 'bla'){
+        if($request->attributes->get('username') == 'admin' && $request->attributes->get('password')  == 'admin'){
             $token = $this->jwt->encode([
                 'uid'    => 1,
                 'aud'    => 'http://site.com',

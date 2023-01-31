@@ -1,10 +1,13 @@
 import { FC } from "react";
 import GuestLayout from "../Templates/GuestLayout";
 
-export const LandingPage: FC = () => {
+export const NotFound: FC = () => {
     return (
         <GuestLayout>
-            Landing page
+
+        
+            The page you are looking for is not found
+        
         </GuestLayout>
     );
 }

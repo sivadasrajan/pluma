@@ -3,20 +3,14 @@ import APIRespose from "./APIRespose";
 export interface AuthData extends APIRespose {
     data:{
         name:string,
-        token:string
+        access_token:string
     },
 }
 
-
-export type LoginType = {
-    email: string;
-    password: string;
-  };
-  
 export interface AuthContextData {
     signed: boolean;
     user: object | null;
     loading: boolean;
-    Login: ({}: LoginType) => Promise<AuthData>;
+    Login: (email:string,password:string) => Promise<AuthData>;
     Logout: () => void;
   }

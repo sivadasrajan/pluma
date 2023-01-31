@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import './App.css'
-import LoginPage from './Pages/LoginPage';
+import Login from './Pages/Login';
 import { Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './Components/ProtectedRoute';
 import { LandingPage } from './Pages/LandingPage';
-import { NotFoundPage } from './Pages/NotFoundPage';
+import { NotFound } from './Pages/NotFound';
 import HomePage from './Pages/Authenticated/HomePage';
 
 function App() {
@@ -15,9 +15,9 @@ function App() {
     <div>
         <Routes>
             <Route path='/' element={<LandingPage />} />
-            <Route path='/login' element={<LoginPage />} />
+            <Route path='/login' element={<Login />} />
             <Route path='/home' element={<ProtectedRoute component={HomePage} />} />
-            <Route path='*' element={<NotFoundPage />} />
+            <Route path='*' element={<NotFound />} />
         </Routes>
     </div>
   )

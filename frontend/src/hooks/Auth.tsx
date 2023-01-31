@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 import api  from "../services/api";
-import { AuthContextData, LoginType } from "../types/AuthData";
+import { AuthContextData, AuthData } from "../types/AuthData";
 
 
 
@@ -25,9 +25,9 @@ export const AuthProvider = ({ children }: any) => {
     loadStorageData();
   }, []);
 
-  const Login = async ({ email, password }: LoginType) => {
+  const Login = async (email:string,password:string) => {
     
-      const res = await api.post<{ access_token: string }>("/api/v1/login", {
+      const res = await api.post<any,AuthData>("/api/v1/login", {
         'username': email,
         'password': password,
       });
