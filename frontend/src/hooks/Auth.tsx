@@ -1,19 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 import api  from "../services/api";
+import { AuthContextData, LoginType } from "../types/AuthData";
 
-export type LoginType = {
-    email: string;
-    password: string;
-  };
-  
-  export interface AuthContextData {
-    signed: boolean;
-    user: object | null;
-    loading: boolean;
-    Login: ({}: LoginType) => Promise<void>;
-    Logout: () => void;
-  }
 
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);

@@ -1,28 +1,29 @@
 import React, { useState } from 'react'; // importing FunctionComponent
 import GuestLayout from '../Templates/GuestLayout';
-import { LoginType, useAuth } from "../hooks/Auth";
-import { redirect,useNavigate } from 'react-router-dom';
+import { useAuth } from "../hooks/Auth";
+import { redirect, useNavigate } from 'react-router-dom';
 
 
 const LoginPage: React.FC = () => {
 
 
   const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const { Login } = useAuth();
-    let navigate = useNavigate();
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const { Login } = useAuth();
+  let navigate = useNavigate();
 
-    const handleLogin = () => {
-        Login({ email, password }).then((response)=>{
-          if(!response.error)
-          console.log(response);
-          
-          navigate('/home');
-        }).catch(()=>{
-          setMessage('Something went wrong');
-        });
-    }
+  const handleLogin = () => {
+    Login({ email, password }).then((response) => {
+
+      if (response.success)
+        navigate('/home');
+      else
+        setMessage(response.message!!)
+    }).catch(() => {
+      setMessage('Something went wrong');
+    });
+  }
 
   return <GuestLayout>
     <div className="card bg-neutral text-neutral-content">
@@ -41,7 +42,7 @@ const LoginPage: React.FC = () => {
             <label className="label">
               <span className="label-text">Password</span>
             </label>
-            <input type="text" placeholder="Enter Password" className="input input-bordered w-full max-w-xs"  onChange={e => setPassword(e.target.value)}/>
+            <input type="text" placeholder="Enter Password" className="input input-bordered w-full max-w-xs" onChange={e => setPassword(e.target.value)} />
           </div>
         </div>
         <div>{message}</div>

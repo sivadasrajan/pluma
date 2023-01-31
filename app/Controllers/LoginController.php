@@ -26,8 +26,8 @@ class LoginController extends Controller{
                 'scopes' => ['user'],
                 'iss'    => 'http://api.mysite.com',
             ]);
-            return new Response(['error' => false , 'access_token'=>$token],200);
+            return new Response(['success' => true , 'access_token'=>$token],200);
         }
-        return new Response(['error' => true , 'message' => 'Invalid credentials'],200);
+        return new Response(['success' => false , 'message' => 'Invalid credentials'],200);
     }
 }
