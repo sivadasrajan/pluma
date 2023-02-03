@@ -1,15 +1,21 @@
-import React from 'react'; // importing FunctionComponent
+import { FC, ReactNode } from "react";
 import Header from './Auth/Header';
 
 
-const AuthLayout = ({children}: {children: React.ReactNode}) => {
+interface IAuthLayoutProps {
+  children:ReactNode
+  title:string
+ };
+
+export const AuthLayout: FC<IAuthLayoutProps> = (props) => {
   return <div>
-    <Header ></Header>
-      <div className='p-2'>
-        {children}
-        </div>
-      </div>;
-  }
-  
+    <Header title={props.title}></Header>
+    <div className='p-2'>
+      {props.children}
+    </div>
+  </div>;
+}
+
+
 
 export default AuthLayout;

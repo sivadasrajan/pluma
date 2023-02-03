@@ -3,7 +3,7 @@ import AuthLayout from '../../Templates/AuthLayout';
 
 
 const HomePage: React.FC = () => {
-  return <AuthLayout>
+  return <AuthLayout title='Dashboard'>
     
         <div className="flex w-full h-full text-center text-3xl"> 
             Welcome Home
