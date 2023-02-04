@@ -23,7 +23,9 @@ class Application
     {
         foreach ($routes as $route) {
             if ($route instanceof Route) {
-                $this->routes[$route->getRoute()]  = $route;
+                $key = $route->getVerb().':'.$route->getRoute();
+                $key = $key.(substr($key, -1) == '/' ? '' : '/');
+                $this->routes[$key]  = $route;
             } else if (is_array($route)) {
                 $this->processRouteOrRouteGroup($route);
             } else {
@@ -40,11 +42,21 @@ class Application
     public function route(Request $request)
     {
 
-        $path = ($request->server->get('PATH_INFO'));
-        // echo $path;
+        if ('OPTIONS' == $request->server->get('REQUEST_METHOD'))
+                return new Response('', 200, [
+                    'Access-Control-Allow-Origin: *',
+                    'Access-Control-Allow-Methods: '.'POST',
+                    'Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Key, Authorization',
+                    'Access-Control-Allow-Credentials: true',
+
+                ]);
+        $path = ($request->server->get('REQUEST_METHOD').':'.$request->server->get('PATH_INFO'));
+        $path = $path.(substr($path, -1) == '/' ? '' : '/');
+       
         if (key_exists($path, $this->routes)) {
             $rt =   $this->routes[$path];
             if ($rt->getVerb() == $request->server->get('REQUEST_METHOD')) {
+                
                 $middlewares = array_merge($this->core_middlewares, $rt->getMiddlewares());
                 foreach ($middlewares as $middleware) {
 
@@ -57,16 +69,13 @@ class Application
 
 
                 $response =  $rt->execute($request);
-                $response->addHeader('Access-Control-Allow-Origin',' *');
-                return ($response);
-            } elseif ('OPTIONS' == $request->server->get('REQUEST_METHOD'))
-                return new Response('', 200, [
-                    'Access-Control-Allow-Origin: *',
-                    'Access-Control-Allow-Methods: '.$rt->getVerb(),
-                    'Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Key, Authorization',
-                    'Access-Control-Allow-Credentials: true',
-
-                ]);
+                if($response){
+                    $response->addHeader('Access-Control-Allow-Origin',' *');
+                    return ($response);
+                }else{
+                   return  new Response('',200);
+                }
+            }
         }
 
 

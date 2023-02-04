@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }: any) => {
       
       localStorage.setItem("@Auth:access_token", res.data.access_token);
       localStorage.setItem("@Auth:user", JSON.stringify('user'));
-      return res.data;
+      return res;
   };
 
   const Logout = () => {

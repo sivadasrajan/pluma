@@ -39,6 +39,31 @@ class Route{
         return new static($route,'POST',$callback);
     }
     
+    public static function put(string $route,$callback)
+    {
+        return new static($route,'PUT',$callback);
+    }
+
+    public static function patch(string $route,$callback)
+    {
+        return new static($route,'PATCH',$callback);
+    }
+    public static function delete(string $route,$callback)
+    {
+        return new static($route,'DELETE',$callback);
+    }
+    
+    public static function resource(string $route,$class)
+    {
+        return [
+            new static($route.'/','GET',[$class,'all']),
+            new static($route.'/{id}','GET',[$class,'show']),
+            new static($route.'/','POST',[$class,'store']),
+            new static($route.'/{id}','PATCH',[$class,'update']),
+            new static($route.'/{id}','DELETE',[$class,'delete']),
+        ];
+    }
+    
     public function execute(Request $request)
     {
         
@@ -59,7 +84,7 @@ class Route{
         return $this;
     }
 
-    public function prefix(string $prefix)
+    public function setPrefix(string $prefix)
     {
         foreach (array_reverse(explode('//',$prefix)) as $prefix) {
             $this->route = '/'.$prefix.$this->route;
@@ -67,28 +92,16 @@ class Route{
         
     }
 
-    public static function group(array $routes,array $attrs) {
-        /** @var Route $route */
-        foreach ($routes as $route) {
-
-        if($route instanceof Route){
-            if(array_key_exists('middlewares',$attrs)){
-                if(is_array($attrs['middlewares'])){
-                 $route->middleware($attrs['middlewares']);
-                }else throw new Exception("Invalid middlewares");
-             }
-     
-             if(array_key_exists('prefix',$attrs)){
-               $route->prefix($attrs['prefix']);
-             }
-        }elseif (is_array($route)) {
-            self::group($route,$attrs);
-        }
-          
-        }
-
-        return $routes;
-      }
+    
+    public static function prefix(string $prefix) {
+            return new RouteGroup([],$prefix);
+    }
+    
+    public static function middlewares(array $middlewares) {
+            return new RouteGroup($middlewares,null);
+    }
+    
+    
   
     public function getRoute()
     {

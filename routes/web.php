@@ -3,35 +3,35 @@
 
 use SivadasRajan\Pluma\Route\Route;
 use App\Controllers\LoginController;
+use App\Controllers\LedgerController;
 use SivadasRajan\Pluma\Http\Response;
 use SivadasRajan\Pluma\Middlewares\JWTAuthMiddleware;
 
 return [
 
-    Route::group([
+    Route::prefix('api')->group([
 
-        Route::group([
+        Route::prefix('v1')->group([
 
             // Authenticaed routes
-            Route::group(
+            Route::middlewares(['auth' => JWTAuthMiddleware::class])->group(
                 [
                     Route::post('/home', function () {
                         return new Response('You are now home', 200);
                     }),
+
+                    Route::resource('/ledger',LedgerController::class)
                 ],
-                ['middlewares' => ['auth' => JWTAuthMiddleware::class],]
             ),
 
             Route::get('/page', function () {
                 return new Response('You are now in page', 200);
             }),
             Route::post('/login', [LoginController::class, 'login']),
-        ], ['prefix' => 'v1']),
+        ]),
 
         //Non Authenticated routes
 
-    ], [
-        'prefix' => 'api',
     ]),
 
     Route::get('/welcome', function () {

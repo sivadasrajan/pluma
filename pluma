@@ -44,10 +44,10 @@ function routelist()
 {
     $routes = require_once  'routes/web.php';
     $rts = (processRouteOrRouteGroup($routes));
-    printf("Route\t\tMethod\n");
+    printf("Method\tRoute\n");
     printf("-----------------------------------\n");
     foreach ($rts as $key => $value) {
-        printf("%s\t |%s \t| \n",$key,$value->getVerb());
+        printf($key."\n");
         # code...
     }
     printf("-----------------------------------\n");
@@ -60,7 +60,7 @@ function processRouteOrRouteGroup($routes):array
         if (is_array($route)) {
             $out = array_merge($out, processRouteOrRouteGroup($route));
         } else {
-            $out[$route->getRoute()]  = $route;
+            $out[$route->getVerb()."\t\t".$route->getRoute()]  = $route;
         }  
     }
 
