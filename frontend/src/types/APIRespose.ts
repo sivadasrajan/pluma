@@ -1,5 +1,4 @@
-export default interface APIRespose{
+export type APIRespose ={
     success:boolean
-    data:object|null,
-    message:string|null
+    message:string
 }

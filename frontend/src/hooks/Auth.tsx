@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: any) => {
 
   const Login = async (email:string,password:string) => {
     
-      const res = await api.post<any,AuthData>("/api/v1/login", {
+      const res = await api.post<AuthData,AuthData>("/api/v1/login", {
         'username': email,
         'password': password,
       });
@@ -35,9 +35,11 @@ export const AuthProvider = ({ children }: any) => {
       // const userData = await api.get<{}>("/auth/user");
       setUser({name:'blah'});
       console.log(!!user);
+      console.log(res);
       
-      localStorage.setItem("@Auth:access_token", res.data.access_token);
+      localStorage.setItem("@Auth:access_token", res.content.access_token);
       localStorage.setItem("@Auth:user", JSON.stringify('user'));
+      
       return res;
   };
 

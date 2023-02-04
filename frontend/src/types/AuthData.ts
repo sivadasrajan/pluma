@@ -1,7 +1,9 @@
-import APIRespose from "./APIRespose";
+import {APIRespose} from "./APIRespose";
 
-export interface AuthData extends APIRespose {
-    data:{
+export type AuthData = APIRespose & {
+    success:boolean
+    message:string
+    content:{
         name:string,
         access_token:string
     },

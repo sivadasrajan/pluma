@@ -3,6 +3,7 @@ import GuestLayout from '../Templates/GuestLayout';
 import { useAuth } from "../hooks/Auth";
 import { redirect, useNavigate } from 'react-router-dom';
 import { TextInput } from '../Components/Input/TextInput';
+import { AuthData } from '../types/AuthData';
 
 
 const Login: React.FC = () => {
@@ -22,10 +23,14 @@ const Login: React.FC = () => {
   const handleLogin = () => {
     setLoading(true)
 
-    Login(loginObj.emailId, loginObj.password).then((response) => {
-
-      if (response.success)
+    Login(loginObj.emailId, loginObj.password).then((response:AuthData) => {
+      console.log(response);
+      
+      if (response.content){
+        console.log("EEEEEe");
+        
         navigate('/home');
+      }
       else
         setMessage(response.message!!)
 
