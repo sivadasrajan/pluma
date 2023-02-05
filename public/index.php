@@ -1,7 +1,7 @@
 <?php
 require '../vendor/autoload.php';
 ini_set('html_errors', true);
-
+ini_set('xdebug.mode','develop');
 ini_set('display_errors', 1);
 use SivadasRajan\Pluma\Http\Request;
 
@@ -18,5 +18,10 @@ $response = $app->handle(
     $request = Request::capture()
 )->send();
 
-die();
+exit();
 // $server->terminate($request, $response);
+
+    function dd($arrayData, $exit=TRUE) {
+        echo "<pre>"; var_dump($arrayData);
+        if($exit===TRUE) die();
+    }
