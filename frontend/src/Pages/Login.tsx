@@ -23,10 +23,10 @@ const Login: React.FC = () => {
   const handleLogin = () => {
     setLoading(true)
 
-    Login(loginObj.emailId, loginObj.password).then((response:AuthData) => {
+    Login(loginObj.emailId, loginObj.password).then((response) => {
       console.log(response);
-      
-      if (response.content){
+       
+      if (response.data){
         console.log("EEEEEe");
         
         navigate('/home');

@@ -1,9 +1,9 @@
 import {APIRespose} from "./APIRespose";
 
-export type AuthData = APIRespose & {
+export type AuthData = {
     success:boolean
     message:string
-    content:{
+    data:{
         name:string,
         access_token:string
     },

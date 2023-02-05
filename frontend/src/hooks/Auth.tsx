@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import api  from "../services/api";
@@ -27,20 +28,19 @@ export const AuthProvider = ({ children }: any) => {
 
   const Login = async (email:string,password:string) => {
     
-      const res = await api.post<AuthData,AuthData>("/api/v1/login", {
+      const res = await api.post<any,AxiosResponse<AuthData>>("/api/v1/login", {
         'username': email,
         'password': password,
       });
 
       // const userData = await api.get<{}>("/auth/user");
-      setUser({name:'blah'});
-      console.log(!!user);
-      console.log(res);
+      if(res.data.success){
+        setUser({name:res.data.data.name});       
+        localStorage.setItem("@Auth:access_token", res.data.data.access_token);
+        localStorage.setItem("@Auth:user", JSON.stringify('user'));
+      }
       
-      localStorage.setItem("@Auth:access_token", res.content.access_token);
-      localStorage.setItem("@Auth:user", JSON.stringify('user'));
-      
-      return res;
+      return res.data;
   };
 
   const Logout = () => {
