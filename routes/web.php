@@ -24,7 +24,7 @@ return [
                 ],
             ),
 
-            Route::get('/page', function () {
+            Route::get('/page/{id}/{name}/', function () {
                 return new Response('You are now in page', 200);
             }),
             Route::post('/login', [LoginController::class, 'login']),
