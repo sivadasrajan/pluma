@@ -16,7 +16,7 @@ return [
             // Authenticaed routes
             Route::middlewares(['auth' => JWTAuthMiddleware::class])->group(
                 [
-                    Route::post('/home', function () {
+                    Route::get('/home', function () {
                         return new Response('You are now home', 200);
                     }),
 

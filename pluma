@@ -91,14 +91,18 @@ function generateAutoloadFiles()
 function main($argv)
 {
     println("Pluma cli tool v0.0.1");
-    println(" Available commands");
-    println("  start             Start the server");
-    println("  gen:autoloader    Generate autoloader files");
+    if(!$argv[1]){
+
+        println(" Available commands");
+        println("  start             Start the server");
+        println("  gen:autoloader    Generate autoloader files");
+    }
 
     switch ($argv[1] ?? '') {
         case '':
             break;
         case 'start':
+            println("Access the server at http://127.0.0.1:8000");
             exec('php -s -S 0.0.0.0:8000 -dxdebug.mode=debug -dxdebug.client_host=127.0.0.1 -dxdebug.client_port=9003 -dxdebug.start_with_request=yes -t"public"');
             break;
         case 'gen:autoloader':

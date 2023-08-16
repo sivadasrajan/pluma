@@ -23,7 +23,7 @@ class Application
     {
         foreach ($routes as $route) {
             if ($route instanceof Route) {
-                $key = preg_replace("/(^\/)|(\/$)/","",$route->getRoute());
+                $key = $this->routeRegex( $route->getRoute());
                 $this->routes[$key]  = $route;
             } elseif (is_array($route)) {
                 $this->processRouteOrRouteGroup($route);
@@ -31,6 +31,11 @@ class Application
                 throw new Exception("The passed route is invalid");
             }
         }
+    }
+
+    public function routeRegex(string|null $route)
+    {
+        return preg_replace("/(^\/)|(\/$)/", "",$route);
     }
 
     public function handle(Request $request)
@@ -49,51 +54,11 @@ class Application
 
             ]);
         }
-        $path =  $request->server->get('PATH_INFO');
-        $path = preg_replace("/(^\/)|(\/$)/","",$path);
+        $path =  $this->routeRegex($request->server->get('PATH_INFO'));
+
         foreach ($this->routes as $name => $route) {
 
-            preg_match_all("/(?<={).+?(?=})/", $name, $paramMatches);
-            if (!empty($paramMatches[0])) {
-
-                foreach ($paramMatches[0] as $key) {
-                    $paramKey[] = $key;
-                }
-                $uri = explode("/", $name);
-                $indexNum = []; 
-
-                foreach($uri as $index => $param){
-                    if(preg_match("/{.*}/", $param)){
-                        $indexNum[] = $index;
-                    }
-                }
-
-                $reqUri = explode("/", $path);
-
-                //running for each loop to set the exact index number with reg expression
-                //this will help in matching route
-                foreach($indexNum as $key => $index){
-        
-                    //in case if req uri with param index is empty then return
-                    //because url is not valid for this route
-                    if(empty($reqUri[$index])){
-                        return;
-                    }
-        
-                    //setting params with params names
-                    $params[$paramKey[$key]] = $reqUri[$index];
-        
-                    //this is to create a regex for comparing route address
-                    $reqUri[$index] = "{.*}";
-                }
-        
-                dd($reqUri);
-                //converting array to sting
-                $reqUri = implode("/",$reqUri);
-                $reqUri = str_replace("/", '\\/', $reqUri);
-        
-                
-            } elseif ($path ==  $name) {
+            if ($path ==  $name) {
                 $rt =   $this->routes[$path];
                 if ($rt->getVerb() == $request->server->get('REQUEST_METHOD')) {
                     $middlewares = array_merge($this->core_middlewares, $rt->getMiddlewares());
@@ -115,8 +80,50 @@ class Application
                     }
                 }
             }
-            
         }
+
+        // foreach ($this->routes as $name => $route) {
+        //     $path = preg_replace("/(^\/)|(\/$)/", "", $path);
+        //     preg_match_all("/(?<={).+?(?=})/", $name, $paramMatches);
+        //     if (!empty($paramMatches[0])) {
+
+        //         foreach ($paramMatches[0] as $key) {
+        //             $paramKey[] = $key;
+        //         }
+        //         $uri = explode("/", $name);
+        //         $indexNum = [];
+
+        //         foreach ($uri as $index => $param) {
+        //             if (preg_match("/{.*}/", $param)) {
+        //                 $indexNum[] = $index;
+        //             }
+        //         }
+
+        //         $reqUri = explode("/", $path);
+
+        //         //running for each loop to set the exact index number with reg expression
+        //         //this will help in matching route
+        //         foreach ($indexNum as $key => $index) {
+
+        //             //in case if req uri with param index is empty then return
+        //             //because url is not valid for this route
+        //             if (empty($reqUri[$index])) {
+        //                 return;
+        //             }
+
+        //             //setting params with params names
+        //             $params[$paramKey[$key]] = $reqUri[$index];
+
+        //             //this is to create a regex for comparing route address
+        //             $reqUri[$index] = "{.*}";
+        //         }
+
+        //         dd($reqUri);
+        //         //converting array to sting
+        //         $reqUri = implode("/", $reqUri);
+        //         $reqUri = str_replace("/", '\\/', $reqUri);
+        //     }
+        // }
 
 
 

@@ -24,8 +24,7 @@ const Login: React.FC = () => {
     setLoading(true)
 
     Login(loginObj.emailId, loginObj.password).then((response) => {
-      console.log(response);
-       
+      
       if (response.data){
         console.log("EEEEEe");
         
